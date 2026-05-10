@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Arte em Plano — Em Breve</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -35,50 +34,49 @@
     .hero {
       position: relative;
       min-height: 100svh;
+      background: linear-gradient(155deg, #0f0905 0%, #1e1309 35%, #2c1d10 65%, #3a2416 100%);
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
-    /* 3×3 mosaic background */
+    /* Background: single blurred image, mobile */
     .hero-bg {
       position: absolute;
       inset: 0;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 2px;
-      transform: scale(1.06);
-      filter: brightness(0.38) saturate(0.6);
       z-index: 0;
     }
-
     .hero-bg img {
       width: 100%; height: 100%;
       object-fit: cover;
+      filter: brightness(.18) saturate(.5) blur(6px);
+      transform: scale(1.06);
       display: block;
     }
 
-    .hero-overlay {
+    /* Radial warm glow */
+    .hero-glow {
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: linear-gradient(
-        180deg,
-        rgba(44,33,24,.55) 0%,
-        rgba(44,33,24,.18) 42%,
-        rgba(44,33,24,.78) 100%
-      );
+      background:
+        radial-gradient(ellipse 70% 60% at 55% 50%, rgba(184,137,58,.09) 0%, transparent 65%),
+        linear-gradient(180deg, rgba(15,9,5,.55) 0%, rgba(44,33,24,.1) 45%, rgba(15,9,5,.8) 100%);
+    }
+
+    /* Desktop: decorative art pieces floating right */
+    .hero-art {
+      display: none;
     }
 
     .hero-content {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-height: 100svh;
-      padding: 2rem 1.4rem 2.5rem;
+      padding: 2rem 1.5rem 2.5rem;
     }
 
     /* top bar */
@@ -91,21 +89,20 @@
     .logo {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
-      font-size: 1.1rem;
-      letter-spacing: 0.2em;
+      font-size: 1.15rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: #fff;
     }
-
     .logo em { font-style: italic; color: var(--sand); }
 
     .badge {
-      font-size: 0.56rem;
+      font-size: 0.55rem;
       letter-spacing: 0.28em;
       text-transform: uppercase;
       color: var(--sand);
       border: 1px solid rgba(201,170,128,.38);
-      padding: 0.32em 0.7em;
+      padding: 0.38em 0.8em;
     }
 
     /* center */
@@ -130,7 +127,6 @@
       opacity: 0;
       animation: up 1s ease .5s forwards;
     }
-
     .hero-title em {
       font-style: italic;
       color: var(--sand);
@@ -157,14 +153,12 @@
       opacity: 0;
       animation: up 1s ease 1.4s forwards;
     }
-
     .scroll-cue span {
       font-size: 0.57rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
       color: var(--sand);
     }
-
     .scroll-line {
       width: 1px; height: 40px;
       background: linear-gradient(to bottom, var(--gold), transparent);
@@ -173,57 +167,106 @@
 
     /* ══ GALLERY ══ */
     .section-gallery {
-      background: var(--dark);
-      padding: 4rem 0 2.5rem;
+      /* warm wall feel */
+      background: linear-gradient(160deg, #ddd5c6 0%, #e8dfd2 40%, #d9d0c1 100%);
+      padding: 4.5rem 0 3rem;
+      position: relative;
+    }
+
+    /* subtle linen texture overlay */
+    .section-gallery::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='6' height='6' fill='none'/%3E%3Ccircle cx='1' cy='1' r='.8' fill='rgba(0,0,0,.025)'/%3E%3Ccircle cx='4' cy='4' r='.8' fill='rgba(0,0,0,.025)'/%3E%3C/svg%3E");
+      pointer-events: none;
     }
 
     .sec-label {
       font-size: 0.6rem;
       letter-spacing: 0.42em;
       text-transform: uppercase;
-      color: var(--sand);
+      color: var(--muted);
       text-align: center;
       margin-bottom: .5rem;
+      position: relative;
     }
 
     .sec-title {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
       font-size: clamp(1.8rem, 8vw, 3rem);
-      color: #fff;
       text-align: center;
       margin-bottom: .4rem;
+      position: relative;
     }
 
     .sec-desc {
       font-size: .78rem;
-      color: rgba(201,170,128,.5);
+      color: var(--muted);
       text-align: center;
-      margin-bottom: 2.2rem;
+      margin-bottom: 3rem;
       padding: 0 1.5rem;
       line-height: 1.6;
+      position: relative;
     }
 
     /* horizontal scroll track */
     .track {
       display: flex;
-      gap: 10px;
-      padding: 0 1.4rem 1rem;
+      gap: 24px;
+      padding: 16px 1.5rem 28px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      position: relative;
     }
     .track::-webkit-scrollbar { display: none; }
 
+    /* ── Frame / art-on-wall card ── */
     .card {
       flex: 0 0 72vw;
       max-width: 260px;
       scroll-snap-align: start;
       position: relative;
+      background: #f9f6f2;
+      padding: 10px 10px 0;
+      box-shadow:
+        0 2px 4px rgba(0,0,0,.07),
+        0 8px 20px rgba(0,0,0,.14),
+        0 20px 48px rgba(0,0,0,.12);
+      border: 1px solid rgba(0,0,0,.07);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* hanging wire */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 14px;
+      background: linear-gradient(to bottom, transparent 0%, rgba(120,95,65,.35) 100%);
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(120,95,65,.28);
+    }
+
+    .card-img-wrap {
       overflow: hidden;
-      border-radius: 1px;
-      background: #111;
+      line-height: 0;
     }
 
     .card img {
@@ -231,43 +274,35 @@
       aspect-ratio: 3 / 4;
       object-fit: cover;
       display: block;
-      filter: brightness(.88) saturate(.78);
-      transition: transform .55s ease, filter .4s;
+      filter: saturate(.88) brightness(.94);
+      transition: transform .6s ease, filter .45s ease;
     }
 
-    .card:active img {
-      transform: scale(1.04);
-      filter: brightness(1) saturate(1);
-    }
-
-    /* Image error fallback */
-    .card img.err {
-      visibility: hidden;
+    @media (hover: hover) {
+      .card:hover img {
+        transform: scale(1.04);
+        filter: saturate(1) brightness(1);
+      }
     }
 
     .card-info {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 3rem 1rem 1rem;
-      background: linear-gradient(to top, rgba(18,12,4,.93) 0%, transparent);
+      padding: .7rem .35rem .9rem;
     }
 
     .card-tag {
       display: inline-block;
-      font-size: .5rem;
+      font-size: .48rem;
       letter-spacing: .32em;
       text-transform: uppercase;
       color: var(--gold);
-      border: 1px solid rgba(184,137,58,.35);
-      padding: .25em .55em;
-      margin-bottom: .5rem;
+      margin-bottom: .35rem;
     }
 
     .card-name {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: 1.05rem;
-      color: #fff;
+      color: var(--dark);
       line-height: 1.25;
     }
 
@@ -276,12 +311,12 @@
       display: flex;
       justify-content: center;
       gap: 6px;
-      margin-top: 1.5rem;
+      margin-top: 1.2rem;
+      position: relative;
     }
-
     .dot {
       width: 20px; height: 2px;
-      background: rgba(201,170,128,.2);
+      background: rgba(44,33,24,.18);
       border-radius: 99px;
       transition: background .3s, width .3s;
       cursor: pointer;
@@ -297,7 +332,7 @@
     .feat-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.8rem;
+      gap: 2rem 1.8rem;
       max-width: 480px;
       margin: 2rem auto 0;
     }
@@ -340,7 +375,6 @@
       line-height: 1.12;
       margin-bottom: .75rem;
     }
-
     .cta-h em { font-style: italic; color: var(--sand); }
 
     .cta-sub {
@@ -386,7 +420,8 @@
       transition: background .25s;
       white-space: nowrap;
     }
-    .email-btn:active { background: var(--sand); }
+    .email-btn:active,
+    .email-btn:hover { background: var(--sand); }
 
     .ok-msg {
       display: none;
@@ -416,7 +451,7 @@
       text-transform: uppercase;
       transition: color .2s;
     }
-    .soc:active { color: var(--gold); }
+    .soc:active, .soc:hover { color: var(--gold); }
 
     /* ══ FOOTER ══ */
     footer {
@@ -475,34 +510,135 @@
     }
     .reveal.vis { opacity: 1; transform: translateY(0); }
 
-    /* ══ DESKTOP ══ */
+    /* ══ TABLET / DESKTOP ══ */
     @media (min-width: 640px) {
       .hero-content { padding: 2.5rem 3rem 3rem; }
-      .card { flex: 0 0 220px; }
-      .feat-grid { grid-template-columns: repeat(4,1fr); max-width: 680px; }
+
+      .track { padding: 20px 3rem 32px; gap: 28px; }
+      .card { flex: 0 0 220px; max-width: 220px; }
+
+      .feat-grid { grid-template-columns: repeat(4, 1fr); max-width: 680px; gap: 2rem; }
+    }
+
+    @media (min-width: 900px) {
+      /* Hero: text left, art pieces right */
+      .hero-content {
+        flex-direction: row;
+        align-items: center;
+        padding: 0 5rem;
+        gap: 2rem;
+        position: relative;
+      }
+
+      /* Pin the top bar */
+      .hero-top {
+        position: absolute;
+        top: 2.5rem;
+        left: 5rem;
+        right: 5rem;
+      }
+
+      .hero-mid {
+        text-align: left;
+        flex: 1;
+        max-width: 52%;
+      }
+
+      .scroll-cue {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      /* Show decorative floating art pieces */
+      .hero-art {
+        display: block;
+        position: absolute;
+        right: 4rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 320px;
+        height: 490px;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .hero-art .piece {
+        position: absolute;
+        overflow: hidden;
+        border: 1px solid rgba(201,170,128,.18);
+        box-shadow:
+          0 8px 20px rgba(0,0,0,.45),
+          0 24px 56px rgba(0,0,0,.4);
+      }
+      .hero-art .piece img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        filter: brightness(.78) saturate(.7);
+      }
+      .hero-art .piece:nth-child(1) {
+        width: 190px; top: 0; right: 0;
+        transform: rotate(2.8deg);
+        z-index: 3;
+      }
+      .hero-art .piece:nth-child(2) {
+        width: 170px; bottom: 0; left: 0;
+        transform: rotate(-2.2deg);
+        z-index: 2;
+      }
+      .hero-art .piece:nth-child(3) {
+        width: 155px; top: 42%; left: 44%;
+        transform: translate(-50%, -50%) rotate(1deg);
+        z-index: 1;
+        opacity: .65;
+      }
+
+      /* Gallery: grid instead of scroll on wide screens */
+      .track {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        overflow-x: visible;
+        padding: 24px 3rem 36px;
+        scroll-snap-type: none;
+        gap: 28px;
+      }
+
+      .card {
+        flex: none;
+        max-width: none;
+        width: 100%;
+      }
+
+      .dots { display: none; }
     }
   </style>
-
 </head>
 <body>
 
 <!-- ══ HERO ══ -->
-
 <section class="hero">
 
   <div class="hero-bg" aria-hidden="true">
-    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740224531-1.png&w=640&q=75" alt="" />
-    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740229916-2.png&w=640&q=75" alt="" />
-    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775744025274-MULHER10-1.png&w=640&q=75" alt="" />
-    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775746680527-MULHER10.png&w=640&q=75" alt="" />
-    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740240923-4.png&w=640&q=75" alt="" />
-    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740224531-1.png&w=640&q=75" alt="" />
-    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740229916-2.png&w=640&q=75" alt="" />
-    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775744025274-MULHER10-1.png&w=640&q=75" alt="" />
-    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740240923-4.png&w=640&q=75" alt="" />
+    <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775746680527-MULHER10.png&w=1200&q=75" alt="" />
   </div>
 
-  <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
+
+  <!-- Decorative art pieces (desktop only) -->
+  <div class="hero-art" aria-hidden="true">
+    <div class="piece">
+      <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740224531-1.png&w=640&q=75" alt="" />
+    </div>
+    <div class="piece">
+      <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740229916-2.png&w=640&q=75" alt="" />
+    </div>
+    <div class="piece">
+      <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775744025274-MULHER10-1.png&w=640&q=75" alt="" />
+    </div>
+  </div>
 
   <div class="hero-content">
     <div class="hero-top">
@@ -510,28 +646,24 @@
       <div class="badge">Em breve</div>
     </div>
 
-```
-<div class="hero-mid">
-  <p class="eyebrow">✦ &nbsp; Novidades chegando &nbsp; ✦</p>
-  <h1 class="hero-title">
-    Arte que<br><em>transforma</em><br>ambientes.
-  </h1>
-  <p class="hero-sub">
-    Nossa loja está a caminho —<br>quadros únicos para cada canto da sua casa.
-  </p>
-</div>
+    <div class="hero-mid">
+      <p class="eyebrow">✦ &nbsp; Novidades chegando &nbsp; ✦</p>
+      <h1 class="hero-title">
+        Arte que<br><em>transforma</em><br>ambientes.
+      </h1>
+      <p class="hero-sub">
+        Nossa loja está a caminho —<br>quadros únicos para cada canto da sua casa.
+      </p>
+    </div>
 
-<div class="scroll-cue">
-  <span>ver prévia</span>
-  <div class="scroll-line"></div>
-</div>
-```
-
+    <div class="scroll-cue">
+      <span>ver prévia</span>
+      <div class="scroll-line"></div>
+    </div>
   </div>
 </section>
 
 <!-- ══ GALLERY ══ -->
-
 <section class="section-gallery" id="galeria">
   <p class="sec-label reveal">Prévia da coleção</p>
   <h2 class="sec-title reveal">O que vem por aí</h2>
@@ -539,47 +671,55 @@
 
   <div class="track" id="track">
 
-```
-<div class="card">
-  <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740224531-1.png&w=640&q=80" alt="Essência Terrosa" loading="lazy" />
-  <div class="card-info">
-    <span class="card-tag">Coleção</span>
-    <p class="card-name">Essência Terrosa</p>
-  </div>
-</div>
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740224531-1.png&w=640&q=80" alt="Essência Terrosa" loading="lazy" />
+      </div>
+      <div class="card-info">
+        <span class="card-tag">Coleção</span>
+        <p class="card-name">Essência Terrosa</p>
+      </div>
+    </div>
 
-<div class="card">
-  <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740229916-2.png&w=640&q=80" alt="Quadros" loading="lazy" />
-  <div class="card-info">
-    <span class="card-tag">Destaque</span>
-    <p class="card-name">Quadros Avulsos</p>
-  </div>
-</div>
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740229916-2.png&w=640&q=80" alt="Quadros Avulsos" loading="lazy" />
+      </div>
+      <div class="card-info">
+        <span class="card-tag">Destaque</span>
+        <p class="card-name">Quadros Avulsos</p>
+      </div>
+    </div>
 
-<div class="card">
-  <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775744025274-MULHER10-1.png&w=640&q=80" alt="Duos e Trios" loading="lazy" />
-  <div class="card-info">
-    <span class="card-tag">Composição</span>
-    <p class="card-name">Duos & Trios</p>
-  </div>
-</div>
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775744025274-MULHER10-1.png&w=640&q=80" alt="Duos e Trios" loading="lazy" />
+      </div>
+      <div class="card-info">
+        <span class="card-tag">Composição</span>
+        <p class="card-name">Duos &amp; Trios</p>
+      </div>
+    </div>
 
-<div class="card">
-  <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775746680527-MULHER10.png&w=640&q=80" alt="Arte Avulsa" loading="lazy" />
-  <div class="card-info">
-    <span class="card-tag">Mais vendido</span>
-    <p class="card-name">Arte Avulsa</p>
-  </div>
-</div>
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775746680527-MULHER10.png&w=640&q=80" alt="Arte Avulsa" loading="lazy" />
+      </div>
+      <div class="card-info">
+        <span class="card-tag">Mais vendido</span>
+        <p class="card-name">Arte Avulsa</p>
+      </div>
+    </div>
 
-<div class="card">
-  <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740240923-4.png&w=640&q=80" alt="Mais escolhidos" loading="lazy" />
-  <div class="card-info">
-    <span class="card-tag">Favorito</span>
-    <p class="card-name">Mais Escolhidos</p>
-  </div>
-</div>
-```
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="https://yafahome.3print.com.br/_next/image?url=https%3A%2F%2Fcdn.02.vuzi.com.br%2F3print%2Fclients%2F598%2F1775740240923-4.png&w=640&q=80" alt="Mais Escolhidos" loading="lazy" />
+      </div>
+      <div class="card-info">
+        <span class="card-tag">Favorito</span>
+        <p class="card-name">Mais Escolhidos</p>
+      </div>
+    </div>
 
   </div>
 
@@ -593,7 +733,6 @@
 </section>
 
 <!-- ══ FEATURES ══ -->
-
 <section class="section-feat">
   <p class="sec-label reveal">Por que escolher</p>
   <h2 class="sec-title reveal" style="color:var(--dark)">Arte em Plano</h2>
@@ -623,7 +762,6 @@
 </section>
 
 <!-- ══ CTA ══ -->
-
 <section class="section-cta">
   <p class="cta-eye reveal">Seja a primeira a saber</p>
   <h2 class="cta-h reveal">Avise-me quando<br><em>abrir</em></h2>
@@ -638,7 +776,7 @@
   </div>
 
   <div class="social-row reveal">
-    <a href="https://www.instagram.com/arteemplano/" target="_blank" class="soc">
+    <a href="https://www.instagram.com/arteemplano/" target="_blank" rel="noopener" class="soc">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="5"/>
         <circle cx="12" cy="12" r="4"/>
@@ -646,7 +784,7 @@
       </svg>
       @arteemplano
     </a>
-    <a href="https://wa.me/21982682029" target="_blank" class="soc">
+    <a href="https://wa.me/21982682029" target="_blank" rel="noopener" class="soc">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
       </svg>
@@ -656,13 +794,12 @@
 </section>
 
 <!-- ══ FOOTER ══ -->
-
 <footer>
   <div class="foot-logo">Arte em Plano</div>
   <div class="foot-links">
     <a href="mailto:nathamnajm@gmail.com">nathamnajm@gmail.com</a>
     <a href="https://wa.me/21982682029">(21) 98268-2029</a>
-    <a href="https://www.instagram.com/arteemplano/" target="_blank">Instagram</a>
+    <a href="https://www.instagram.com/arteemplano/" target="_blank" rel="noopener">Instagram</a>
   </div>
   <p class="foot-copy">© 2026 Arte em Plano — Todos os direitos reservados</p>
 </footer>
@@ -675,7 +812,7 @@
       e.target.classList.add('vis');
       obs.unobserve(e.target);
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.12 });
 
   document.querySelectorAll('.reveal').forEach(el => {
     const siblings = [...el.parentElement.querySelectorAll('.reveal')];
@@ -688,14 +825,19 @@
   const dots  = document.querySelectorAll('.dot');
 
   track.addEventListener('scroll', () => {
-    const cw  = track.querySelector('.card').offsetWidth + 10;
+    const card = track.querySelector('.card');
+    if (!card) return;
+    const gap = parseInt(getComputedStyle(track).gap) || 24;
+    const cw  = card.offsetWidth + gap;
     const idx = Math.round(track.scrollLeft / cw);
     dots.forEach((d, i) => d.classList.toggle('on', i === idx));
   }, { passive: true });
 
   dots.forEach(d => {
     d.addEventListener('click', () => {
-      const cw = track.querySelector('.card').offsetWidth + 10;
+      const card = track.querySelector('.card');
+      const gap  = parseInt(getComputedStyle(track).gap) || 24;
+      const cw   = card.offsetWidth + gap;
       track.scrollTo({ left: +d.dataset.i * cw, behavior: 'smooth' });
     });
   });
